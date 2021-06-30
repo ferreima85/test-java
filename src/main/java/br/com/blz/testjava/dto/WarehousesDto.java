@@ -11,9 +11,7 @@ import java.io.Serializable;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-public class WarehousesDto  implements Serializable {
-
-    private static final long serialVersionUID = 4186107415954655367L;
+public class WarehousesDto  {
 
     private String locality;
     private Integer quantity;

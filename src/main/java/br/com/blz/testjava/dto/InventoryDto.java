@@ -12,9 +12,7 @@ import java.util.List;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-public class InventoryDto implements Serializable {
-
-    private static final long serialVersionUID = -6575904146253255016L;
+public class InventoryDto {
 
     private Integer quantity;
     private List<WarehousesDto> warehouses;

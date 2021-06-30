@@ -1,36 +1,33 @@
 package br.com.blz.testjava.service;
 
-import br.com.blz.testjava.dto.SkuDto;
-import br.com.blz.testjava.repository.TestJavaRepository;
-import org.springframework.beans.factory.annotation.Autowired;
+import java.util.Optional;
+
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
+import br.com.blz.testjava.dto.SkuDto;
+import br.com.blz.testjava.repository.TestJavaRepository;
+import lombok.RequiredArgsConstructor;
+
 @Service
+@RequiredArgsConstructor
 public class TestJavaService  {
-    @Autowired
-    private TestJavaRepository testJavaServiceRepository;
 
-    public static SkuDto create(SkuDto skuDto) {
-        return TestJavaRepository.create(skuDto);
+    private final TestJavaRepository repository;
+
+    public ResponseEntity<SkuDto> create(SkuDto skuDto) {
+        return repository.create(skuDto);
     }
 
-    public static SkuDto getBySku(Integer sku) {
-        SkuDto
-//        return skuDto.stream().filter( {
-  //          s -> s.sku = skuDto.getSku()}).findFirst().get();
+    public ResponseEntity<Optional<SkuDto>> getBySku(Integer sku) {
+        return repository.getBySku(sku);
     }
 
-    public static SkuDto atualizar(SkuDto skuDto) {
-        SkuDto skuDto = SkuDto.stream().filter( {
-            p -> p.sku = skuDto.getSku()}).findFirst();
-        SkuDto skuDtoAtualizado = SkuDto(
-
-        )
+    public ResponseEntity<SkuDto> atualizar(SkuDto skuDto) {
+        return repository.atualizar(skuDto);
     }
 
-    public static void deletar(Integer sku) {
-        SkuDto skuDto = skuDto.stream().filter( {
-            p -> p.sku = skuDto.getSku()}).findFirst();
-        skuDto = skuDto.minus(SkuDto);
+    public void deletar(Integer sku) {
+        repository.deletar(sku);
     }
 }

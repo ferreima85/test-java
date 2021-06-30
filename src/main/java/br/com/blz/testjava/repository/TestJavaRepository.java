@@ -1,91 +1,56 @@
 package br.com.blz.testjava.repository;
 
-import br.com.blz.testjava.dto.InventoryDto;
-import br.com.blz.testjava.dto.SkuDto;
-import br.com.blz.testjava.dto.WarehousesDto;
-import lombok.var;
-import org.springframework.stereotype.Repository;
-import org.springframework.stereotype.Service;
-
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Optional;
 
-@Service
+import org.springframework.http.ResponseEntity;
+import org.springframework.stereotype.Repository;
+
+import br.com.blz.testjava.dto.InventoryDto;
+import br.com.blz.testjava.dto.SkuDto;
+
+@Repository
 public class TestJavaRepository {
-    public static List<SkuDto> create(SkuDto skudto) {
-        List<WarehousesDto> listWarehouses = new ArrayList<>();
-        List<WarehousesDto> listWarehouses2 = new ArrayList<>();
-        List<SkuDto> listSku = new ArrayList<>();
+    //variavel global criada para simular BD
+    //a idéia é evitar que os dados deste objeto seja
+    //excluído da memória
+    SkuDto skuEntity = new SkuDto();
 
-        var warehouses = WarehousesDto.builder()
-            .locality("SP")
-            .quantity(1)
-            .type("sei lá")
-            .build();
-        var warehouses2 = WarehousesDto.builder()
-            .locality("RJ")
-            .quantity(1)
-            .type("sei lá")
-            .build();
+    public ResponseEntity<SkuDto> create(SkuDto skuDto) {
 
-        var warehouses3 = WarehousesDto.builder()
-            .locality("GO")
-            .quantity(1)
-            .type("sei lá")
+        skuEntity = SkuDto.builder()
+            .sku(skuDto.getSku())
+            .name(skuDto.getName())
+            .isMarketable(skuDto.getIsMarketable())
+            .inventoryDto(InventoryDto.builder()
+                .quantity(skuDto.getInventoryDto().getQuantity())
+                .warehouses(skuDto.getInventoryDto().getWarehouses())
+                .build())
             .build();
 
-        listWarehouses.add(warehouses);
-        listWarehouses.add(warehouses2);
-        listWarehouses.add(warehouses3);
+        return ResponseEntity.ok(skuEntity);
+    }
 
-        var skuRepository =
-                 SkuDto.builder()
-                    .sku(1)
-                    .name("lapis")
-                    .isMarketable(true)
-                     .inventoryDto(InventoryDto.builder()
-                         .quantity(10)
-                         .warehouses(listWarehouses)
-                         .build())
-                    .build();
-
-        var warehouses4 = WarehousesDto.builder()
-            .locality("SP")
-            .quantity(1)
-            .type("sei lá")
-            .build();
-        var warehouses5 = WarehousesDto.builder()
-            .locality("RJ")
-            .quantity(1)
-            .type("sei lá")
+    public ResponseEntity<SkuDto> atualizar(SkuDto skuDto) {
+        skuEntity = SkuDto.builder()
+            .sku(skuDto.getSku())
+            .name(skuDto.getName())
+            .isMarketable(skuDto.getIsMarketable())
+            .inventoryDto(InventoryDto.builder()
+                .quantity(skuDto.getInventoryDto().getQuantity())
+                .warehouses(skuDto.getInventoryDto().getWarehouses())
+                .build())
             .build();
 
-        var warehouses6 = WarehousesDto.builder()
-            .locality("GO")
-            .quantity(1)
-            .type("sei lá")
-            .build();
+        return ResponseEntity.ok(skuEntity);
+    }
 
-        listWarehouses2.add(warehouses4);
-        listWarehouses2.add(warehouses5);
-        listWarehouses2.add(warehouses6);
+    public ResponseEntity<Optional<SkuDto>> getBySku(Integer sku) {
+        return ResponseEntity.ok(Optional.ofNullable(skuEntity)
+            .filter(entidade -> entidade.getSku() == sku));
+    }
 
-        var skuRepository2 =
-            SkuDto.builder()
-                .sku(2)
-                .name("borracha")
-                .isMarketable(true)
-                .inventoryDto(InventoryDto.builder()
-                    .quantity(10)
-                    .warehouses(listWarehouses2)
-                    .build())
-                .build();
-
-        listSku.add(skuRepository);
-        listSku.add(skuRepository2);
-
-        return listSku;
+    public ResponseEntity<Optional<Void>> deletar(Integer sku) {
+        return ResponseEntity.noContent().build();
     }
 
 }

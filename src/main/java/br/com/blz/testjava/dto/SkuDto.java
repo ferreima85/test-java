@@ -11,13 +11,11 @@ import java.io.Serializable;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-public class SkuDto implements Serializable {
-
-    private static final long serialVersionUID = -6174469700871202458L;
+public class SkuDto  {
 
     private Integer sku;
     private String name;
     private InventoryDto inventoryDto;
-    private boolean isMarketable;
+    private Boolean isMarketable;
 
 }
